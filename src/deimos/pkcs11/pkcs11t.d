@@ -70,18 +70,33 @@ enum CK_INVALID_HANDLE =        0UL;
 
 
 struct CK_VERSION {
+version (Windows) {
+align (1):
   CK_BYTE       major;  /* integer portion of version number */
   CK_BYTE       minor;  /* 1/100ths portion of version number */
+} else {
+  CK_BYTE       major;  /* integer portion of version number */
+  CK_BYTE       minor;  /* 1/100ths portion of version number */
+}
 }
 
 alias CK_VERSION*         CK_VERSION_PTR;
 
 struct CK_INFO {
+version (Windows) {
+align (1):
   CK_VERSION      cryptokiVersion;       /* Cryptoki interface ver */
   CK_UTF8CHAR[32] manufacturerID;        /* blank padded */
   CK_FLAGS        flags;                 /* must be zero */
   CK_UTF8CHAR[32] libraryDescription;    /* blank padded */
   CK_VERSION      libraryVersion;        /* version of library */
+} else {
+  CK_VERSION      cryptokiVersion;       /* Cryptoki interface ver */
+  CK_UTF8CHAR[32] manufacturerID;        /* blank padded */
+  CK_FLAGS        flags;                 /* must be zero */
+  CK_UTF8CHAR[32] libraryDescription;    /* blank padded */
+  CK_VERSION      libraryVersion;        /* version of library */
+}
 }
 
 alias CK_INFO*            CK_INFO_PTR;
@@ -101,12 +116,22 @@ alias CK_SLOT_ID*         CK_SLOT_ID_PTR;
 
 /* CK_SLOT_INFO provides information about a slot */
 struct CK_SLOT_INFO {
+version (Windows) {
+align (1):
   CK_UTF8CHAR[64]   slotDescription;  /* blank padded */
   CK_UTF8CHAR[32]   manufacturerID;   /* blank padded */
   CK_FLAGS          flags;
 
   CK_VERSION        hardwareVersion;  /* version of hardware */
   CK_VERSION        firmwareVersion;  /* version of firmware */
+} else {
+  CK_UTF8CHAR[64]   slotDescription;  /* blank padded */
+  CK_UTF8CHAR[32]   manufacturerID;   /* blank padded */
+  CK_FLAGS          flags;
+
+  CK_VERSION        hardwareVersion;  /* version of hardware */
+  CK_VERSION        firmwareVersion;  /* version of firmware */
+}
 }
 
 /* flags: bit flags that provide capabilities of the slot
@@ -121,6 +146,8 @@ alias CK_SLOT_INFO*         CK_SLOT_INFO_PTR;
 
 /* CK_TOKEN_INFO provides information about a token */
 struct CK_TOKEN_INFO {
+version (Windows) {
+align (1):
   CK_UTF8CHAR[32]   label;           /* blank padded */
   CK_UTF8CHAR[32]   manufacturerID;  /* blank padded */
   CK_UTF8CHAR[16]   model;           /* blank padded */
@@ -140,6 +167,27 @@ struct CK_TOKEN_INFO {
   CK_VERSION    hardwareVersion;       /* version of hardware */
   CK_VERSION    firmwareVersion;       /* version of firmware */
   CK_CHAR[16]   utcTime;               /* time */
+} else {
+  CK_UTF8CHAR[32]   label;           /* blank padded */
+  CK_UTF8CHAR[32]   manufacturerID;  /* blank padded */
+  CK_UTF8CHAR[16]   model;           /* blank padded */
+  CK_CHAR[16]       serialNumber;    /* blank padded */
+  CK_FLAGS          flags;           /* see below */
+
+  CK_ULONG      ulMaxSessionCount;     /* max open sessions */
+  CK_ULONG      ulSessionCount;        /* sess. now open */
+  CK_ULONG      ulMaxRwSessionCount;   /* max R/W sessions */
+  CK_ULONG      ulRwSessionCount;      /* R/W sess. now open */
+  CK_ULONG      ulMaxPinLen;           /* in bytes */
+  CK_ULONG      ulMinPinLen;           /* in bytes */
+  CK_ULONG      ulTotalPublicMemory;   /* in bytes */
+  CK_ULONG      ulFreePublicMemory;    /* in bytes */
+  CK_ULONG      ulTotalPrivateMemory;  /* in bytes */
+  CK_ULONG      ulFreePrivateMemory;   /* in bytes */
+  CK_VERSION    hardwareVersion;       /* version of hardware */
+  CK_VERSION    firmwareVersion;       /* version of firmware */
+  CK_CHAR[16]   utcTime;               /* time */
+}
 };
 
 /* The flags parameter is defined as follows:
@@ -270,10 +318,18 @@ enum CKS_RW_SO_FUNCTIONS =      4UL;
 
 /* CK_SESSION_INFO provides information about a session */
 struct CK_SESSION_INFO {
+version (Windows) {
+align (1):
   CK_SLOT_ID    slotID;
   CK_STATE      state;
   CK_FLAGS      flags;          /* see below */
   CK_ULONG      ulDeviceError;  /* device-dependent error code */
+} else {
+  CK_SLOT_ID    slotID;
+  CK_STATE      state;
+  CK_FLAGS      flags;          /* see below */
+  CK_ULONG      ulDeviceError;  /* device-dependent error code */
+}
 }
 
 /* The flags are defined in the following table:
@@ -555,18 +611,32 @@ enum CKA_VENDOR_DEFINED =               0x80000000UL;
  * and value of an attribute
  */
 struct CK_ATTRIBUTE {
+version (Windows) {
+align (1):
   CK_ATTRIBUTE_TYPE type;
   CK_VOID_PTR       pValue;
   CK_ULONG          ulValueLen;  /* in bytes */
+} else {
+  CK_ATTRIBUTE_TYPE type;
+  CK_VOID_PTR       pValue;
+  CK_ULONG          ulValueLen;  /* in bytes */
+}
 }
 
 alias CK_ATTRIBUTE*         CK_ATTRIBUTE_PTR;
 
 /* CK_DATE is a structure that defines a date */
 struct CK_DATE{
+version (Windows) {
+align (1):
   CK_CHAR[4]       year;   /* the year ("1900" - "9999") */
   CK_CHAR[2]       month;  /* the month ("01" - "12") */
   CK_CHAR[2]       day;    /* the day   ("01" - "31") */
+} else {
+  CK_CHAR[4]       year;   /* the year ("1900" - "9999") */
+  CK_CHAR[2]       month;  /* the month ("01" - "12") */
+  CK_CHAR[2]       day;    /* the day   ("01" - "31") */
+}
 }
 
 
@@ -974,9 +1044,16 @@ alias CK_MECHANISM_TYPE*         CK_MECHANISM_TYPE_PTR;
  * mechanism
  */
 struct CK_MECHANISM {
+version (Windows) {
+align (1):
   CK_MECHANISM_TYPE mechanism;
   CK_VOID_PTR       pParameter;
   CK_ULONG          ulParameterLen;  /* in bytes */
+} else {
+  CK_MECHANISM_TYPE mechanism;
+  CK_VOID_PTR       pParameter;
+  CK_ULONG          ulParameterLen;  /* in bytes */
+}
 }
 
 alias CK_MECHANISM*         CK_MECHANISM_PTR;
@@ -986,9 +1063,16 @@ alias CK_MECHANISM*         CK_MECHANISM_PTR;
  * mechanism
  */
 struct CK_MECHANISM_INFO {
+version (Windows) {
+align (1):
     CK_ULONG    ulMinKeySize;
     CK_ULONG    ulMaxKeySize;
     CK_FLAGS    flags;
+} else {
+    CK_ULONG    ulMinKeySize;
+    CK_ULONG    ulMaxKeySize;
+    CK_FLAGS    flags;
+}
 }
 
 /* The flags are defined as follows:
@@ -1204,12 +1288,22 @@ alias CK_UNLOCKMUTEX = CK_RV function(
  * C_Initialize
  */
 struct CK_C_INITIALIZE_ARGS {
+version (Windows) {
+align (1):
   CK_CREATEMUTEX CreateMutex;
   CK_DESTROYMUTEX DestroyMutex;
   CK_LOCKMUTEX LockMutex;
   CK_UNLOCKMUTEX UnlockMutex;
   CK_FLAGS flags;
   CK_VOID_PTR pReserved;
+} else {
+  CK_CREATEMUTEX CreateMutex;
+  CK_DESTROYMUTEX DestroyMutex;
+  CK_LOCKMUTEX LockMutex;
+  CK_UNLOCKMUTEX UnlockMutex;
+  CK_FLAGS flags;
+  CK_VOID_PTR pReserved;
+}
 }
 
 /* flags: bit flags that provide capabilities of the slot
@@ -1257,11 +1351,20 @@ enum CKZ_DATA_SPECIFIED =     0x00000001UL;
  * CKM_RSA_PKCS_OAEP mechanism.
  */
 struct CK_RSA_PKCS_OAEP_PARAMS {
+version (Windows) {
+align (1):
         CK_MECHANISM_TYPE hashAlg;
         CK_RSA_PKCS_MGF_TYPE mgf;
         CK_RSA_PKCS_OAEP_SOURCE_TYPE source;
         CK_VOID_PTR pSourceData;
         CK_ULONG ulSourceDataLen;
+} else {
+        CK_MECHANISM_TYPE hashAlg;
+        CK_RSA_PKCS_MGF_TYPE mgf;
+        CK_RSA_PKCS_OAEP_SOURCE_TYPE source;
+        CK_VOID_PTR pSourceData;
+        CK_ULONG ulSourceDataLen;
+}
 }
 
 alias CK_RSA_PKCS_OAEP_PARAMS*         CK_RSA_PKCS_OAEP_PARAMS_PTR;
@@ -1270,9 +1373,16 @@ alias CK_RSA_PKCS_OAEP_PARAMS*         CK_RSA_PKCS_OAEP_PARAMS_PTR;
  * CKM_RSA_PKCS_PSS mechanism(s).
  */
 struct CK_RSA_PKCS_PSS_PARAMS {
+version (Windows) {
+align (1):
         CK_MECHANISM_TYPE    hashAlg;
         CK_RSA_PKCS_MGF_TYPE mgf;
         CK_ULONG             sLen;
+} else {
+        CK_MECHANISM_TYPE    hashAlg;
+        CK_RSA_PKCS_MGF_TYPE mgf;
+        CK_ULONG             sLen;
+}
 }
 
 alias CK_RSA_PKCS_PSS_PARAMS*         CK_RSA_PKCS_PSS_PARAMS_PTR;
@@ -1298,11 +1408,20 @@ enum CKD_CPDIVERSIFY_KDF =       0x00000009UL;
  * where each party contributes one key pair.
  */
 struct CK_ECDH1_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_EC_KDF_TYPE kdf;
   CK_ULONG ulSharedDataLen;
   CK_BYTE_PTR pSharedData;
   CK_ULONG ulPublicDataLen;
   CK_BYTE_PTR pPublicData;
+} else {
+  CK_EC_KDF_TYPE kdf;
+  CK_ULONG ulSharedDataLen;
+  CK_BYTE_PTR pSharedData;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+}
 }
 
 alias CK_ECDH1_DERIVE_PARAMS*         CK_ECDH1_DERIVE_PARAMS_PTR;
@@ -1312,6 +1431,18 @@ alias CK_ECDH1_DERIVE_PARAMS*         CK_ECDH1_DERIVE_PARAMS_PTR;
  * CKM_ECMQV_DERIVE mechanism, where each party contributes two key pairs.
  */
 struct CK_ECDH2_DERIVE_PARAMS {
+version (Windows) {
+align (1):
+  CK_EC_KDF_TYPE kdf;
+  CK_ULONG ulSharedDataLen;
+  CK_BYTE_PTR pSharedData;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+  CK_ULONG ulPrivateDataLen;
+  CK_OBJECT_HANDLE hPrivateData;
+  CK_ULONG ulPublicDataLen2;
+  CK_BYTE_PTR pPublicData2;
+} else {
   CK_EC_KDF_TYPE kdf;
   CK_ULONG ulSharedDataLen;
   CK_BYTE_PTR pSharedData;
@@ -1322,10 +1453,13 @@ struct CK_ECDH2_DERIVE_PARAMS {
   CK_ULONG ulPublicDataLen2;
   CK_BYTE_PTR pPublicData2;
 }
+}
 
 alias CK_ECDH2_DERIVE_PARAMS*         CK_ECDH2_DERIVE_PARAMS_PTR;
 
 struct CK_ECMQV_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_EC_KDF_TYPE kdf;
   CK_ULONG ulSharedDataLen;
   CK_BYTE_PTR pSharedData;
@@ -1336,6 +1470,18 @@ struct CK_ECMQV_DERIVE_PARAMS {
   CK_ULONG ulPublicDataLen2;
   CK_BYTE_PTR pPublicData2;
   CK_OBJECT_HANDLE publicKey;
+} else {
+  CK_EC_KDF_TYPE kdf;
+  CK_ULONG ulSharedDataLen;
+  CK_BYTE_PTR pSharedData;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+  CK_ULONG ulPrivateDataLen;
+  CK_OBJECT_HANDLE hPrivateData;
+  CK_ULONG ulPublicDataLen2;
+  CK_BYTE_PTR pPublicData2;
+  CK_OBJECT_HANDLE publicKey;
+}
 }
 
 alias CK_ECMQV_DERIVE_PARAMS*         CK_ECMQV_DERIVE_PARAMS_PTR;
@@ -1351,11 +1497,20 @@ alias CK_X9_42_DH_KDF_TYPE*         CK_X9_42_DH_KDF_TYPE_PTR;
  * contributes one key pair
  */
 struct CK_X9_42_DH1_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_X9_42_DH_KDF_TYPE kdf;
   CK_ULONG ulOtherInfoLen;
   CK_BYTE_PTR pOtherInfo;
   CK_ULONG ulPublicDataLen;
   CK_BYTE_PTR pPublicData;
+} else {
+  CK_X9_42_DH_KDF_TYPE kdf;
+  CK_ULONG ulOtherInfoLen;
+  CK_BYTE_PTR pOtherInfo;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+}
 }
 
 alias CK_X9_42_DH1_DERIVE_PARAMS*        CK_X9_42_DH1_DERIVE_PARAMS_PTR;
@@ -1365,6 +1520,18 @@ alias CK_X9_42_DH1_DERIVE_PARAMS*        CK_X9_42_DH1_DERIVE_PARAMS_PTR;
  * mechanisms, where each party contributes two key pairs
  */
 struct CK_X9_42_DH2_DERIVE_PARAMS {
+version (Windows) {
+align (1):
+  CK_X9_42_DH_KDF_TYPE kdf;
+  CK_ULONG ulOtherInfoLen;
+  CK_BYTE_PTR pOtherInfo;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+  CK_ULONG ulPrivateDataLen;
+  CK_OBJECT_HANDLE hPrivateData;
+  CK_ULONG ulPublicDataLen2;
+  CK_BYTE_PTR pPublicData2;
+} else {
   CK_X9_42_DH_KDF_TYPE kdf;
   CK_ULONG ulOtherInfoLen;
   CK_BYTE_PTR pOtherInfo;
@@ -1375,10 +1542,24 @@ struct CK_X9_42_DH2_DERIVE_PARAMS {
   CK_ULONG ulPublicDataLen2;
   CK_BYTE_PTR pPublicData2;
 }
+}
 
 alias CK_X9_42_DH2_DERIVE_PARAMS*         CK_X9_42_DH2_DERIVE_PARAMS_PTR;
 
 struct CK_X9_42_MQV_DERIVE_PARAMS {
+version (Windows) {
+align (1):
+  CK_X9_42_DH_KDF_TYPE kdf;
+  CK_ULONG ulOtherInfoLen;
+  CK_BYTE_PTR pOtherInfo;
+  CK_ULONG ulPublicDataLen;
+  CK_BYTE_PTR pPublicData;
+  CK_ULONG ulPrivateDataLen;
+  CK_OBJECT_HANDLE hPrivateData;
+  CK_ULONG ulPublicDataLen2;
+  CK_BYTE_PTR pPublicData2;
+  CK_OBJECT_HANDLE publicKey;
+} else {
   CK_X9_42_DH_KDF_TYPE kdf;
   CK_ULONG ulOtherInfoLen;
   CK_BYTE_PTR pOtherInfo;
@@ -1390,6 +1571,7 @@ struct CK_X9_42_MQV_DERIVE_PARAMS {
   CK_BYTE_PTR pPublicData2;
   CK_OBJECT_HANDLE publicKey;
 }
+}
 
 alias CK_X9_42_MQV_DERIVE_PARAMS*         CK_X9_42_MQV_DERIVE_PARAMS_PTR;
 
@@ -1397,12 +1579,22 @@ alias CK_X9_42_MQV_DERIVE_PARAMS*         CK_X9_42_MQV_DERIVE_PARAMS_PTR;
  * CKM_KEA_DERIVE mechanism
  */
 struct CK_KEA_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_BBOOL      isSender;
   CK_ULONG      ulRandomLen;
   CK_BYTE_PTR   pRandomA;
   CK_BYTE_PTR   pRandomB;
   CK_ULONG      ulPublicDataLen;
   CK_BYTE_PTR   pPublicData;
+} else {
+  CK_BBOOL      isSender;
+  CK_ULONG      ulRandomLen;
+  CK_BYTE_PTR   pRandomA;
+  CK_BYTE_PTR   pRandomB;
+  CK_ULONG      ulPublicDataLen;
+  CK_BYTE_PTR   pPublicData;
+}
 }
 
 alias CK_KEA_DERIVE_PARAMS*         CK_KEA_DERIVE_PARAMS_PTR;
@@ -1421,8 +1613,14 @@ alias CK_RC2_PARAMS*         CK_RC2_PARAMS_PTR;
  * mechanism
  */
 struct CK_RC2_CBC_PARAMS {
+version (Windows) {
+align (1):
   CK_ULONG      ulEffectiveBits;  /* effective bits (1-1024) */
   CK_BYTE[8]    iv;               /* IV for CBC mode */
+} else {
+  CK_ULONG      ulEffectiveBits;  /* effective bits (1-1024) */
+  CK_BYTE[8]    iv;               /* IV for CBC mode */
+}
 }
 
 alias CK_RC2_CBC_PARAMS*         CK_RC2_CBC_PARAMS_PTR;
@@ -1432,8 +1630,14 @@ alias CK_RC2_CBC_PARAMS*         CK_RC2_CBC_PARAMS_PTR;
  * CKM_RC2_MAC_GENERAL mechanism
  */
 struct CK_RC2_MAC_GENERAL_PARAMS {
+version (Windows) {
+align (1):
   CK_ULONG      ulEffectiveBits;  /* effective bits (1-1024) */
   CK_ULONG      ulMacLength;      /* Length of MAC in bytes */
+} else {
+  CK_ULONG      ulEffectiveBits;  /* effective bits (1-1024) */
+  CK_ULONG      ulMacLength;      /* Length of MAC in bytes */
+}
 }
 
 alias CK_RC2_MAC_GENERAL_PARAMS*
@@ -1444,8 +1648,14 @@ alias CK_RC2_MAC_GENERAL_PARAMS*
  * CKM_RC5_MAC mechanisms
  */
 struct CK_RC5_PARAMS {
+version (Windows) {
+align (1):
   CK_ULONG      ulWordsize;  /* wordsize in bits */
   CK_ULONG      ulRounds;    /* number of rounds */
+} else {
+  CK_ULONG      ulWordsize;  /* wordsize in bits */
+  CK_ULONG      ulRounds;    /* number of rounds */
+}
 }
 
 alias CK_RC5_PARAMS*         CK_RC5_PARAMS_PTR;
@@ -1455,10 +1665,18 @@ alias CK_RC5_PARAMS*         CK_RC5_PARAMS_PTR;
  * mechanism
  */
 struct CK_RC5_CBC_PARAMS {
+version (Windows) {
+align (1):
   CK_ULONG      ulWordsize;  /* wordsize in bits */
   CK_ULONG      ulRounds;    /* number of rounds */
   CK_BYTE_PTR   pIv;         /* pointer to IV */
   CK_ULONG      ulIvLen;     /* length of IV in bytes */
+} else {
+  CK_ULONG      ulWordsize;  /* wordsize in bits */
+  CK_ULONG      ulRounds;    /* number of rounds */
+  CK_BYTE_PTR   pIv;         /* pointer to IV */
+  CK_ULONG      ulIvLen;     /* length of IV in bytes */
+}
 }
 
 alias CK_RC5_CBC_PARAMS*         CK_RC5_CBC_PARAMS_PTR;
@@ -1468,9 +1686,16 @@ alias CK_RC5_CBC_PARAMS*         CK_RC5_CBC_PARAMS_PTR;
  * CKM_RC5_MAC_GENERAL mechanism
  */
 struct CK_RC5_MAC_GENERAL_PARAMS {
+version (Windows) {
+align (1):
   CK_ULONG      ulWordsize;   /* wordsize in bits */
   CK_ULONG      ulRounds;     /* number of rounds */
   CK_ULONG      ulMacLength;  /* Length of MAC in bytes */
+} else {
+  CK_ULONG      ulWordsize;   /* wordsize in bits */
+  CK_ULONG      ulRounds;     /* number of rounds */
+  CK_ULONG      ulMacLength;  /* Length of MAC in bytes */
+}
 }
 
 alias CK_RC5_MAC_GENERAL_PARAMS*
@@ -1485,17 +1710,31 @@ alias CK_ULONG            CK_MAC_GENERAL_PARAMS;
 alias CK_MAC_GENERAL_PARAMS*         CK_MAC_GENERAL_PARAMS_PTR;
 
 struct CK_DES_CBC_ENCRYPT_DATA_PARAMS {
+version (Windows) {
+align (1):
   CK_BYTE[8]   iv;
   CK_BYTE_PTR  pData;
   CK_ULONG     length;
+} else {
+  CK_BYTE[8]   iv;
+  CK_BYTE_PTR  pData;
+  CK_ULONG     length;
+}
 }
 
 alias CK_DES_CBC_ENCRYPT_DATA_PARAMS*         CK_DES_CBC_ENCRYPT_DATA_PARAMS_PTR;
 
 struct CK_AES_CBC_ENCRYPT_DATA_PARAMS {
+version (Windows) {
+align (1):
   CK_BYTE[16]  iv;
   CK_BYTE_PTR  pData;
   CK_ULONG     length;
+} else {
+  CK_BYTE[16]  iv;
+  CK_BYTE_PTR  pData;
+  CK_ULONG     length;
+}
 }
 
 alias CK_AES_CBC_ENCRYPT_DATA_PARAMS*         CK_AES_CBC_ENCRYPT_DATA_PARAMS_PTR;
@@ -1504,6 +1743,20 @@ alias CK_AES_CBC_ENCRYPT_DATA_PARAMS*         CK_AES_CBC_ENCRYPT_DATA_PARAMS_PTR
  * CKM_SKIPJACK_PRIVATE_WRAP mechanism
  */
 struct CK_SKIPJACK_PRIVATE_WRAP_PARAMS {
+version (Windows) {
+align (1):
+  CK_ULONG      ulPasswordLen;
+  CK_BYTE_PTR   pPassword;
+  CK_ULONG      ulPublicDataLen;
+  CK_BYTE_PTR   pPublicData;
+  CK_ULONG      ulPAndGLen;
+  CK_ULONG      ulQLen;
+  CK_ULONG      ulRandomLen;
+  CK_BYTE_PTR   pRandomA;
+  CK_BYTE_PTR   pPrimeP;
+  CK_BYTE_PTR   pBaseG;
+  CK_BYTE_PTR   pSubprimeQ;
+} else {
   CK_ULONG      ulPasswordLen;
   CK_BYTE_PTR   pPassword;
   CK_ULONG      ulPublicDataLen;
@@ -1516,6 +1769,7 @@ struct CK_SKIPJACK_PRIVATE_WRAP_PARAMS {
   CK_BYTE_PTR   pBaseG;
   CK_BYTE_PTR   pSubprimeQ;
 }
+}
 
 alias CK_SKIPJACK_PRIVATE_WRAP_PARAMS*
   CK_SKIPJACK_PRIVATE_WRAP_PARAMS_PTR;
@@ -1525,6 +1779,23 @@ alias CK_SKIPJACK_PRIVATE_WRAP_PARAMS*
  * CKM_SKIPJACK_RELAYX mechanism
  */
 struct CK_SKIPJACK_RELAYX_PARAMS {
+version (Windows) {
+align (1):
+  CK_ULONG      ulOldWrappedXLen;
+  CK_BYTE_PTR   pOldWrappedX;
+  CK_ULONG      ulOldPasswordLen;
+  CK_BYTE_PTR   pOldPassword;
+  CK_ULONG      ulOldPublicDataLen;
+  CK_BYTE_PTR   pOldPublicData;
+  CK_ULONG      ulOldRandomLen;
+  CK_BYTE_PTR   pOldRandomA;
+  CK_ULONG      ulNewPasswordLen;
+  CK_BYTE_PTR   pNewPassword;
+  CK_ULONG      ulNewPublicDataLen;
+  CK_BYTE_PTR   pNewPublicData;
+  CK_ULONG      ulNewRandomLen;
+  CK_BYTE_PTR   pNewRandomA;
+} else {
   CK_ULONG      ulOldWrappedXLen;
   CK_BYTE_PTR   pOldWrappedX;
   CK_ULONG      ulOldPasswordLen;
@@ -1540,18 +1811,29 @@ struct CK_SKIPJACK_RELAYX_PARAMS {
   CK_ULONG      ulNewRandomLen;
   CK_BYTE_PTR   pNewRandomA;
 }
+}
 
 alias CK_SKIPJACK_RELAYX_PARAMS*
   CK_SKIPJACK_RELAYX_PARAMS_PTR;
 
 
 struct CK_PBE_PARAMS {
+version (Windows) {
+align (1):
   CK_BYTE_PTR      pInitVector;
   CK_UTF8CHAR_PTR  pPassword;
   CK_ULONG         ulPasswordLen;
   CK_BYTE_PTR      pSalt;
   CK_ULONG         ulSaltLen;
   CK_ULONG         ulIteration;
+} else {
+  CK_BYTE_PTR      pInitVector;
+  CK_UTF8CHAR_PTR  pPassword;
+  CK_ULONG         ulPasswordLen;
+  CK_BYTE_PTR      pSalt;
+  CK_ULONG         ulSaltLen;
+  CK_ULONG         ulIteration;
+}
 }
 
 alias CK_PBE_PARAMS*         CK_PBE_PARAMS_PTR;
@@ -1561,30 +1843,60 @@ alias CK_PBE_PARAMS*         CK_PBE_PARAMS_PTR;
  * CKM_KEY_WRAP_SET_OAEP mechanism
  */
 struct CK_KEY_WRAP_SET_OAEP_PARAMS {
+version (Windows) {
+align (1):
   CK_BYTE       bBC;     /* block contents byte */
   CK_BYTE_PTR   pX;      /* extra data */
   CK_ULONG      ulXLen;  /* length of extra data in bytes */
+} else {
+  CK_BYTE       bBC;     /* block contents byte */
+  CK_BYTE_PTR   pX;      /* extra data */
+  CK_ULONG      ulXLen;  /* length of extra data in bytes */
+}
 }
 
 alias CK_KEY_WRAP_SET_OAEP_PARAMS*         CK_KEY_WRAP_SET_OAEP_PARAMS_PTR;
 
 struct CK_SSL3_RANDOM_DATA {
+version (Windows) {
+align (1):
+  CK_BYTE_PTR  pClientRandom;
+  CK_ULONG     ulClientRandomLen;
+  CK_BYTE_PTR  pServerRandom;
+  CK_ULONG     ulServerRandomLen;
+} else {
   CK_BYTE_PTR  pClientRandom;
   CK_ULONG     ulClientRandomLen;
   CK_BYTE_PTR  pServerRandom;
   CK_ULONG     ulServerRandomLen;
 }
+}
 
 
 struct CK_SSL3_MASTER_KEY_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_SSL3_RANDOM_DATA RandomInfo;
   CK_VERSION_PTR pVersion;
+} else {
+  CK_SSL3_RANDOM_DATA RandomInfo;
+  CK_VERSION_PTR pVersion;
+}
 }
 
 alias CK_SSL3_MASTER_KEY_DERIVE_PARAMS*
   CK_SSL3_MASTER_KEY_DERIVE_PARAMS_PTR;
 
 struct CK_SSL3_KEY_MAT_OUT {
+version (Windows) {
+align (1):
+  CK_OBJECT_HANDLE hClientMacSecret;
+  CK_OBJECT_HANDLE hServerMacSecret;
+  CK_OBJECT_HANDLE hClientKey;
+  CK_OBJECT_HANDLE hServerKey;
+  CK_BYTE_PTR      pIVClient;
+  CK_BYTE_PTR      pIVServer;
+} else {
   CK_OBJECT_HANDLE hClientMacSecret;
   CK_OBJECT_HANDLE hServerMacSecret;
   CK_OBJECT_HANDLE hClientKey;
@@ -1592,11 +1904,21 @@ struct CK_SSL3_KEY_MAT_OUT {
   CK_BYTE_PTR      pIVClient;
   CK_BYTE_PTR      pIVServer;
 }
+}
 
 alias CK_SSL3_KEY_MAT_OUT*         CK_SSL3_KEY_MAT_OUT_PTR;
 
 
 struct CK_SSL3_KEY_MAT_PARAMS {
+version (Windows) {
+align (1):
+  CK_ULONG                ulMacSizeInBits;
+  CK_ULONG                ulKeySizeInBits;
+  CK_ULONG                ulIVSizeInBits;
+  CK_BBOOL                bIsExport;
+  CK_SSL3_RANDOM_DATA     RandomInfo;
+  CK_SSL3_KEY_MAT_OUT_PTR pReturnedKeyMaterial;
+} else {
   CK_ULONG                ulMacSizeInBits;
   CK_ULONG                ulKeySizeInBits;
   CK_ULONG                ulIVSizeInBits;
@@ -1604,10 +1926,20 @@ struct CK_SSL3_KEY_MAT_PARAMS {
   CK_SSL3_RANDOM_DATA     RandomInfo;
   CK_SSL3_KEY_MAT_OUT_PTR pReturnedKeyMaterial;
 }
+}
 
 alias CK_SSL3_KEY_MAT_PARAMS*         CK_SSL3_KEY_MAT_PARAMS_PTR;
 
 struct CK_TLS_PRF_PARAMS {
+version (Windows) {
+align (1):
+  CK_BYTE_PTR  pSeed;
+  CK_ULONG     ulSeedLen;
+  CK_BYTE_PTR  pLabel;
+  CK_ULONG     ulLabelLen;
+  CK_BYTE_PTR  pOutput;
+  CK_ULONG_PTR pulOutputLen;
+} else {
   CK_BYTE_PTR  pSeed;
   CK_ULONG     ulSeedLen;
   CK_BYTE_PTR  pLabel;
@@ -1615,28 +1947,54 @@ struct CK_TLS_PRF_PARAMS {
   CK_BYTE_PTR  pOutput;
   CK_ULONG_PTR pulOutputLen;
 }
+}
 
 alias CK_TLS_PRF_PARAMS*         CK_TLS_PRF_PARAMS_PTR;
 
 struct CK_WTLS_RANDOM_DATA {
+version (Windows) {
+align (1):
+  CK_BYTE_PTR pClientRandom;
+  CK_ULONG    ulClientRandomLen;
+  CK_BYTE_PTR pServerRandom;
+  CK_ULONG    ulServerRandomLen;
+} else {
   CK_BYTE_PTR pClientRandom;
   CK_ULONG    ulClientRandomLen;
   CK_BYTE_PTR pServerRandom;
   CK_ULONG    ulServerRandomLen;
 }
+}
 
 alias CK_WTLS_RANDOM_DATA*         CK_WTLS_RANDOM_DATA_PTR;
 
 struct CK_WTLS_MASTER_KEY_DERIVE_PARAMS {
+version (Windows) {
+align (1):
   CK_MECHANISM_TYPE   DigestMechanism;
   CK_WTLS_RANDOM_DATA RandomInfo;
   CK_BYTE_PTR         pVersion;
+} else {
+  CK_MECHANISM_TYPE   DigestMechanism;
+  CK_WTLS_RANDOM_DATA RandomInfo;
+  CK_BYTE_PTR         pVersion;
+}
 }
 
 alias CK_WTLS_MASTER_KEY_DERIVE_PARAMS*
   CK_WTLS_MASTER_KEY_DERIVE_PARAMS_PTR;
 
 struct CK_WTLS_PRF_PARAMS {
+version (Windows) {
+align (1):
+  CK_MECHANISM_TYPE DigestMechanism;
+  CK_BYTE_PTR       pSeed;
+  CK_ULONG          ulSeedLen;
+  CK_BYTE_PTR       pLabel;
+  CK_ULONG          ulLabelLen;
+  CK_BYTE_PTR       pOutput;
+  CK_ULONG_PTR      pulOutputLen;
+} else {
   CK_MECHANISM_TYPE DigestMechanism;
   CK_BYTE_PTR       pSeed;
   CK_ULONG          ulSeedLen;
@@ -1645,18 +2003,37 @@ struct CK_WTLS_PRF_PARAMS {
   CK_BYTE_PTR       pOutput;
   CK_ULONG_PTR      pulOutputLen;
 }
+}
 
 alias CK_WTLS_PRF_PARAMS*         CK_WTLS_PRF_PARAMS_PTR;
 
 struct CK_WTLS_KEY_MAT_OUT {
+version (Windows) {
+align (1):
   CK_OBJECT_HANDLE hMacSecret;
   CK_OBJECT_HANDLE hKey;
   CK_BYTE_PTR      pIV;
+} else {
+  CK_OBJECT_HANDLE hMacSecret;
+  CK_OBJECT_HANDLE hKey;
+  CK_BYTE_PTR      pIV;
+}
 }
 
 alias CK_WTLS_KEY_MAT_OUT*         CK_WTLS_KEY_MAT_OUT_PTR;
 
 struct CK_WTLS_KEY_MAT_PARAMS {
+version (Windows) {
+align (1):
+  CK_MECHANISM_TYPE       DigestMechanism;
+  CK_ULONG                ulMacSizeInBits;
+  CK_ULONG                ulKeySizeInBits;
+  CK_ULONG                ulIVSizeInBits;
+  CK_ULONG                ulSequenceNumber;
+  CK_BBOOL                bIsExport;
+  CK_WTLS_RANDOM_DATA     RandomInfo;
+  CK_WTLS_KEY_MAT_OUT_PTR pReturnedKeyMaterial;
+} else {
   CK_MECHANISM_TYPE       DigestMechanism;
   CK_ULONG                ulMacSizeInBits;
   CK_ULONG                ulKeySizeInBits;
@@ -1666,10 +2043,22 @@ struct CK_WTLS_KEY_MAT_PARAMS {
   CK_WTLS_RANDOM_DATA     RandomInfo;
   CK_WTLS_KEY_MAT_OUT_PTR pReturnedKeyMaterial;
 }
+}
 
 alias CK_WTLS_KEY_MAT_PARAMS*         CK_WTLS_KEY_MAT_PARAMS_PTR;
 
 struct CK_CMS_SIG_PARAMS {
+version (Windows) {
+align (1):
+  CK_OBJECT_HANDLE      certificateHandle;
+  CK_MECHANISM_PTR      pSigningMechanism;
+  CK_MECHANISM_PTR      pDigestMechanism;
+  CK_UTF8CHAR_PTR       pContentType;
+  CK_BYTE_PTR           pRequestedAttributes;
+  CK_ULONG              ulRequestedAttributesLen;
+  CK_BYTE_PTR           pRequiredAttributes;
+  CK_ULONG              ulRequiredAttributesLen;
+} else {
   CK_OBJECT_HANDLE      certificateHandle;
   CK_MECHANISM_PTR      pSigningMechanism;
   CK_MECHANISM_PTR      pDigestMechanism;
@@ -1679,12 +2068,19 @@ struct CK_CMS_SIG_PARAMS {
   CK_BYTE_PTR           pRequiredAttributes;
   CK_ULONG              ulRequiredAttributesLen;
 }
+}
 
 alias CK_CMS_SIG_PARAMS*         CK_CMS_SIG_PARAMS_PTR;
 
 struct CK_KEY_DERIVATION_STRING_DATA {
+version (Windows) {
+align (1):
   CK_BYTE_PTR pData;
   CK_ULONG    ulLen;
+} else {
+  CK_BYTE_PTR pData;
+  CK_ULONG    ulLen;
+}
 }
 
 alias CK_KEY_DERIVATION_STRING_DATA*
@@ -1734,6 +2130,18 @@ enum CKZ_SALT_SPECIFIED =         0x00000001UL;
  * parameters to the CKM_PKCS5_PBKD2 mechanism.
  */
 struct CK_PKCS5_PBKD2_PARAMS {
+version (Windows) {
+align (1):
+        CK_PKCS5_PBKDF2_SALT_SOURCE_TYPE           saltSource;
+        CK_VOID_PTR                                pSaltSourceData;
+        CK_ULONG                                   ulSaltSourceDataLen;
+        CK_ULONG                                   iterations;
+        CK_PKCS5_PBKD2_PSEUDO_RANDOM_FUNCTION_TYPE prf;
+        CK_VOID_PTR                                pPrfData;
+        CK_ULONG                                   ulPrfDataLen;
+        CK_UTF8CHAR_PTR                            pPassword;
+        CK_ULONG_PTR                               ulPasswordLen;
+} else {
         CK_PKCS5_PBKDF2_SALT_SOURCE_TYPE           saltSource;
         CK_VOID_PTR                                pSaltSourceData;
         CK_ULONG                                   ulSaltSourceDataLen;
@@ -1744,6 +2152,7 @@ struct CK_PKCS5_PBKD2_PARAMS {
         CK_UTF8CHAR_PTR                            pPassword;
         CK_ULONG_PTR                               ulPasswordLen;
 }
+}
 
 alias CK_PKCS5_PBKD2_PARAMS*         CK_PKCS5_PBKD2_PARAMS_PTR;
 
@@ -1752,6 +2161,18 @@ alias CK_PKCS5_PBKD2_PARAMS*         CK_PKCS5_PBKD2_PARAMS_PTR;
  * noting that the ulPasswordLen field is a CK_ULONG and not a CK_ULONG_PTR.
  */
 struct CK_PKCS5_PBKD2_PARAMS2 {
+version (Windows) {
+align (1):
+        CK_PKCS5_PBKDF2_SALT_SOURCE_TYPE saltSource;
+        CK_VOID_PTR pSaltSourceData;
+        CK_ULONG ulSaltSourceDataLen;
+        CK_ULONG iterations;
+        CK_PKCS5_PBKD2_PSEUDO_RANDOM_FUNCTION_TYPE prf;
+        CK_VOID_PTR pPrfData;
+        CK_ULONG ulPrfDataLen;
+        CK_UTF8CHAR_PTR pPassword;
+        CK_ULONG ulPasswordLen;
+} else {
         CK_PKCS5_PBKDF2_SALT_SOURCE_TYPE saltSource;
         CK_VOID_PTR pSaltSourceData;
         CK_ULONG ulSaltSourceDataLen;
@@ -1762,6 +2183,7 @@ struct CK_PKCS5_PBKD2_PARAMS2 {
         CK_UTF8CHAR_PTR pPassword;
         CK_ULONG ulPasswordLen;
 }
+}
 
 alias CK_PKCS5_PBKD2_PARAMS2*         CK_PKCS5_PBKD2_PARAMS2_PTR;
 
@@ -1769,23 +2191,42 @@ alias CK_ULONG   CK_OTP_PARAM_TYPE;
 alias CK_OTP_PARAM_TYPE   CK_PARAM_TYPE; /* backward compatibility */
 
 struct CK_OTP_PARAM {
+version (Windows) {
+align (1):
     CK_OTP_PARAM_TYPE type;
     CK_VOID_PTR pValue;
     CK_ULONG ulValueLen;
+} else {
+    CK_OTP_PARAM_TYPE type;
+    CK_VOID_PTR pValue;
+    CK_ULONG ulValueLen;
+}
 }
 
 alias CK_OTP_PARAM*         CK_OTP_PARAM_PTR;
 
 struct CK_OTP_PARAMS {
+version (Windows) {
+align (1):
     CK_OTP_PARAM_PTR pParams;
     CK_ULONG ulCount;
+} else {
+    CK_OTP_PARAM_PTR pParams;
+    CK_ULONG ulCount;
+}
 }
 
 alias CK_OTP_PARAMS*         CK_OTP_PARAMS_PTR;
 
 struct CK_OTP_SIGNATURE_INFO {
+version (Windows) {
+align (1):
     CK_OTP_PARAM_PTR pParams;
     CK_ULONG ulCount;
+} else {
+    CK_OTP_PARAM_PTR pParams;
+    CK_ULONG ulCount;
+}
 }
 
 alias CK_OTP_SIGNATURE_INFO*         CK_OTP_SIGNATURE_INFO_PTR;
@@ -1807,22 +2248,45 @@ enum CKF_EXCLUDE_PIN =        0x00000010UL;
 enum CKF_USER_FRIENDLY_OTP =  0x00000020UL;
 
 struct CK_KIP_PARAMS {
+version (Windows) {
+align (1):
+    CK_MECHANISM_PTR  pMechanism;
+    CK_OBJECT_HANDLE  hKey;
+    CK_BYTE_PTR       pSeed;
+    CK_ULONG          ulSeedLen;
+} else {
     CK_MECHANISM_PTR  pMechanism;
     CK_OBJECT_HANDLE  hKey;
     CK_BYTE_PTR       pSeed;
     CK_ULONG          ulSeedLen;
 }
+}
 
 alias CK_KIP_PARAMS*         CK_KIP_PARAMS_PTR;
 
 struct CK_AES_CTR_PARAMS {
+version (Windows) {
+align (1):
     CK_ULONG    ulCounterBits;
     CK_BYTE[16] cb;
+} else {
+    CK_ULONG    ulCounterBits;
+    CK_BYTE[16] cb;
+}
 }
 
 alias CK_AES_CTR_PARAMS*         CK_AES_CTR_PARAMS_PTR;
 
 struct CK_GCM_PARAMS {
+version (Windows) {
+align (1):
+    CK_BYTE_PTR       pIv;
+    CK_ULONG          ulIvLen;
+    CK_ULONG          ulIvBits;
+    CK_BYTE_PTR       pAAD;
+    CK_ULONG          ulAADLen;
+    CK_ULONG          ulTagBits;
+} else {
     CK_BYTE_PTR       pIv;
     CK_ULONG          ulIvLen;
     CK_ULONG          ulIvBits;
@@ -1830,10 +2294,20 @@ struct CK_GCM_PARAMS {
     CK_ULONG          ulAADLen;
     CK_ULONG          ulTagBits;
 }
+}
 
 alias CK_GCM_PARAMS*         CK_GCM_PARAMS_PTR;
 
 struct CK_CCM_PARAMS {
+version (Windows) {
+align (1):
+    CK_ULONG          ulDataLen;
+    CK_BYTE_PTR       pNonce;
+    CK_ULONG          ulNonceLen;
+    CK_BYTE_PTR       pAAD;
+    CK_ULONG          ulAADLen;
+    CK_ULONG          ulMACLen;
+} else {
     CK_ULONG          ulDataLen;
     CK_BYTE_PTR       pNonce;
     CK_ULONG          ulNonceLen;
@@ -1841,11 +2315,21 @@ struct CK_CCM_PARAMS {
     CK_ULONG          ulAADLen;
     CK_ULONG          ulMACLen;
 }
+}
 
 alias CK_CCM_PARAMS*         CK_CCM_PARAMS_PTR;
 
 /* Deprecated. Use CK_GCM_PARAMS */
 struct CK_AES_GCM_PARAMS {
+version (Windows) {
+align (1):
+  CK_BYTE_PTR pIv;
+  CK_ULONG ulIvLen;
+  CK_ULONG ulIvBits;
+  CK_BYTE_PTR pAAD;
+  CK_ULONG ulAADLen;
+  CK_ULONG ulTagBits;
+} else {
   CK_BYTE_PTR pIv;
   CK_ULONG ulIvLen;
   CK_ULONG ulIvBits;
@@ -1853,11 +2337,21 @@ struct CK_AES_GCM_PARAMS {
   CK_ULONG ulAADLen;
   CK_ULONG ulTagBits;
 }
+}
 
 alias CK_AES_GCM_PARAMS*         CK_AES_GCM_PARAMS_PTR;
 
 /* Deprecated. Use CK_CCM_PARAMS */
 struct CK_AES_CCM_PARAMS {
+version (Windows) {
+align (1):
+    CK_ULONG          ulDataLen;
+    CK_BYTE_PTR       pNonce;
+    CK_ULONG          ulNonceLen;
+    CK_BYTE_PTR       pAAD;
+    CK_ULONG          ulAADLen;
+    CK_ULONG          ulMACLen;
+} else {
     CK_ULONG          ulDataLen;
     CK_BYTE_PTR       pNonce;
     CK_ULONG          ulNonceLen;
@@ -1865,48 +2359,85 @@ struct CK_AES_CCM_PARAMS {
     CK_ULONG          ulAADLen;
     CK_ULONG          ulMACLen;
 }
+}
 
 alias CK_AES_CCM_PARAMS*         CK_AES_CCM_PARAMS_PTR;
 
 struct CK_CAMELLIA_CTR_PARAMS {
+version (Windows) {
+align (1):
     CK_ULONG          ulCounterBits;
     CK_BYTE[16]       cb;
+} else {
+    CK_ULONG          ulCounterBits;
+    CK_BYTE[16]       cb;
+}
 }
 
 alias CK_CAMELLIA_CTR_PARAMS*         CK_CAMELLIA_CTR_PARAMS_PTR;
 
 struct CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS {
+version (Windows) {
+align (1):
     CK_BYTE[16]       iv;
     CK_BYTE_PTR       pData;
     CK_ULONG          length;
+} else {
+    CK_BYTE[16]       iv;
+    CK_BYTE_PTR       pData;
+    CK_ULONG          length;
+}
 }
 
 alias CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS*
                                 CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS_PTR;
 
 struct CK_ARIA_CBC_ENCRYPT_DATA_PARAMS {
+version (Windows) {
+align (1):
     CK_BYTE[16]       iv;
     CK_BYTE_PTR       pData;
     CK_ULONG          length;
+} else {
+    CK_BYTE[16]       iv;
+    CK_BYTE_PTR       pData;
+    CK_ULONG          length;
+}
 }
 
 alias CK_ARIA_CBC_ENCRYPT_DATA_PARAMS*
                                 CK_ARIA_CBC_ENCRYPT_DATA_PARAMS_PTR;
 
 struct CK_DSA_PARAMETER_GEN_PARAM {
+version (Windows) {
+align (1):
+    CK_MECHANISM_TYPE  hash;
+    CK_BYTE_PTR        pSeed;
+    CK_ULONG           ulSeedLen;
+    CK_ULONG           ulIndex;
+} else {
     CK_MECHANISM_TYPE  hash;
     CK_BYTE_PTR        pSeed;
     CK_ULONG           ulSeedLen;
     CK_ULONG           ulIndex;
 }
+}
 
 alias CK_DSA_PARAMETER_GEN_PARAM*         CK_DSA_PARAMETER_GEN_PARAM_PTR;
 
 struct CK_ECDH_AES_KEY_WRAP_PARAMS {
+version (Windows) {
+align (1):
     CK_ULONG           ulAESKeyBits;
     CK_EC_KDF_TYPE     kdf;
     CK_ULONG           ulSharedDataLen;
     CK_BYTE_PTR        pSharedData;
+} else {
+    CK_ULONG           ulAESKeyBits;
+    CK_EC_KDF_TYPE     kdf;
+    CK_ULONG           ulSharedDataLen;
+    CK_BYTE_PTR        pSharedData;
+}
 }
 
 alias CK_ECDH_AES_KEY_WRAP_PARAMS*         CK_ECDH_AES_KEY_WRAP_PARAMS_PTR;
@@ -1916,22 +2447,45 @@ alias CK_ULONG   CK_JAVA_MIDP_SECURITY_DOMAIN;
 alias CK_ULONG   CK_CERTIFICATE_CATEGORY;
 
 struct CK_RSA_AES_KEY_WRAP_PARAMS {
+version (Windows) {
+align (1):
     CK_ULONG                      ulAESKeyBits;
     CK_RSA_PKCS_OAEP_PARAMS_PTR   pOAEPParams;
+} else {
+    CK_ULONG                      ulAESKeyBits;
+    CK_RSA_PKCS_OAEP_PARAMS_PTR   pOAEPParams;
+}
 }
 
 alias CK_RSA_AES_KEY_WRAP_PARAMS*         CK_RSA_AES_KEY_WRAP_PARAMS_PTR;
 
 struct CK_TLS12_MASTER_KEY_DERIVE_PARAMS {
+version (Windows) {
+align (1):
     CK_SSL3_RANDOM_DATA       RandomInfo;
     CK_VERSION_PTR            pVersion;
     CK_MECHANISM_TYPE         prfHashMechanism;
+} else {
+    CK_SSL3_RANDOM_DATA       RandomInfo;
+    CK_VERSION_PTR            pVersion;
+    CK_MECHANISM_TYPE         prfHashMechanism;
+}
 }
 
 alias CK_TLS12_MASTER_KEY_DERIVE_PARAMS*
                                 CK_TLS12_MASTER_KEY_DERIVE_PARAMS_PTR;
 
 struct CK_TLS12_KEY_MAT_PARAMS {
+version (Windows) {
+align (1):
+    CK_ULONG                  ulMacSizeInBits;
+    CK_ULONG                  ulKeySizeInBits;
+    CK_ULONG                  ulIVSizeInBits;
+    CK_BBOOL                  bIsExport;
+    CK_SSL3_RANDOM_DATA       RandomInfo;
+    CK_SSL3_KEY_MAT_OUT_PTR   pReturnedKeyMaterial;
+    CK_MECHANISM_TYPE         prfHashMechanism;
+} else {
     CK_ULONG                  ulMacSizeInBits;
     CK_ULONG                  ulKeySizeInBits;
     CK_ULONG                  ulIVSizeInBits;
@@ -1940,10 +2494,20 @@ struct CK_TLS12_KEY_MAT_PARAMS {
     CK_SSL3_KEY_MAT_OUT_PTR   pReturnedKeyMaterial;
     CK_MECHANISM_TYPE         prfHashMechanism;
 }
+}
 
 alias CK_TLS12_KEY_MAT_PARAMS*         CK_TLS12_KEY_MAT_PARAMS_PTR;
 
 struct CK_TLS_KDF_PARAMS {
+version (Windows) {
+align (1):
+    CK_MECHANISM_TYPE         prfMechanism;
+    CK_BYTE_PTR               pLabel;
+    CK_ULONG                  ulLabelLength;
+    CK_SSL3_RANDOM_DATA       RandomInfo;
+    CK_BYTE_PTR               pContextData;
+    CK_ULONG                  ulContextDataLength;
+} else {
     CK_MECHANISM_TYPE         prfMechanism;
     CK_BYTE_PTR               pLabel;
     CK_ULONG                  ulLabelLength;
@@ -1951,41 +2515,74 @@ struct CK_TLS_KDF_PARAMS {
     CK_BYTE_PTR               pContextData;
     CK_ULONG                  ulContextDataLength;
 }
+}
 
 alias CK_TLS_KDF_PARAMS*         CK_TLS_KDF_PARAMS_PTR;
 
 struct CK_TLS_MAC_PARAMS {
+version (Windows) {
+align (1):
     CK_MECHANISM_TYPE         prfHashMechanism;
     CK_ULONG                  ulMacLength;
     CK_ULONG                  ulServerOrClient;
+} else {
+    CK_MECHANISM_TYPE         prfHashMechanism;
+    CK_ULONG                  ulMacLength;
+    CK_ULONG                  ulServerOrClient;
+}
 }
 
 alias CK_TLS_MAC_PARAMS*         CK_TLS_MAC_PARAMS_PTR;
 
 struct CK_GOSTR3410_DERIVE_PARAMS {
+version (Windows) {
+align (1):
+    CK_EC_KDF_TYPE            kdf;
+    CK_BYTE_PTR               pPublicData;
+    CK_ULONG                  ulPublicDataLen;
+    CK_BYTE_PTR               pUKM;
+    CK_ULONG                  ulUKMLen;
+} else {
     CK_EC_KDF_TYPE            kdf;
     CK_BYTE_PTR               pPublicData;
     CK_ULONG                  ulPublicDataLen;
     CK_BYTE_PTR               pUKM;
     CK_ULONG                  ulUKMLen;
 }
+}
 
 alias CK_GOSTR3410_DERIVE_PARAMS*         CK_GOSTR3410_DERIVE_PARAMS_PTR;
 
 struct CK_GOSTR3410_KEY_WRAP_PARAMS {
+version (Windows) {
+align (1):
+    CK_BYTE_PTR               pWrapOID;
+    CK_ULONG                  ulWrapOIDLen;
+    CK_BYTE_PTR               pUKM;
+    CK_ULONG                  ulUKMLen;
+    CK_OBJECT_HANDLE          hKey;
+} else {
     CK_BYTE_PTR               pWrapOID;
     CK_ULONG                  ulWrapOIDLen;
     CK_BYTE_PTR               pUKM;
     CK_ULONG                  ulUKMLen;
     CK_OBJECT_HANDLE          hKey;
 }
+}
 
 alias CK_GOSTR3410_KEY_WRAP_PARAMS*         CK_GOSTR3410_KEY_WRAP_PARAMS_PTR;
 
 struct CK_SEED_CBC_ENCRYPT_DATA_PARAMS {
+version (Windows) {
+align (1):
     CK_BYTE[16]               iv;
     CK_BYTE_PTR               pData;
     CK_ULONG                  length;
+} else {
+    CK_BYTE[16]               iv;
+    CK_BYTE_PTR               pData;
+    CK_ULONG                  length;
+}
 }
 
 alias CK_SEED_CBC_ENCRYPT_DATA_PARAMS*

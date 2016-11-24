@@ -229,6 +229,8 @@ mixin(pkcs11Functions!(name => "alias CK_" ~ name ~ " = typeof(" ~ name ~ ")*;")
  */
 
 struct CK_FUNCTION_LIST {
+version (Windows) {
+  align (1):
 
   CK_VERSION    version_;  /* Cryptoki version */
 
@@ -237,4 +239,13 @@ struct CK_FUNCTION_LIST {
  * function prototypes.
  */
   mixin(pkcs11Functions!(name => "CK_" ~ name ~ " " ~ name ~ ";"));
+} else {
+  CK_VERSION    version_;  /* Cryptoki version */
+
+/* Pile all the function pointers into the CK_FUNCTION_LIST. */
+/* pkcs11f.h has all the information about the Cryptoki
+ * function prototypes.
+ */
+  mixin(pkcs11Functions!(name => "CK_" ~ name ~ " " ~ name ~ ";"));
+}
 }
