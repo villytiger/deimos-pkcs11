@@ -16,6 +16,8 @@
  * should not be altered.
  */
 
+module deimos.pkcs11.pkcs11f;
+
 private import deimos.pkcs11.pkcs11t;
 
 extern (C) nothrow:

@@ -1163,7 +1163,7 @@ alias CK_NOTIFY = CK_RV function(
  * version and pointers of appropriate types to all the
  * Cryptoki functions
  */
-alias deimos.pkcs11.CK_FUNCTION_LIST CK_FUNCTION_LIST;
+import deimos.pkcs11: CK_FUNCTION_LIST;
 
 alias CK_FUNCTION_LIST* CK_FUNCTION_LIST_PTR;
 
