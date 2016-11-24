@@ -77,11 +77,11 @@ struct CK_VERSION {
 alias CK_VERSION*         CK_VERSION_PTR;
 
 struct CK_INFO {
-  CK_VERSION    cryptokiVersion;     /* Cryptoki interface ver */
-  CK_UTF8CHAR   manufacturerID[32];  /* blank padded */
-  CK_FLAGS      flags;               /* must be zero */
-  CK_UTF8CHAR   libraryDescription[32];  /* blank padded */
-  CK_VERSION    libraryVersion;          /* version of library */
+  CK_VERSION      cryptokiVersion;       /* Cryptoki interface ver */
+  CK_UTF8CHAR[32] manufacturerID;        /* blank padded */
+  CK_FLAGS        flags;                 /* must be zero */
+  CK_UTF8CHAR[32] libraryDescription;    /* blank padded */
+  CK_VERSION      libraryVersion;        /* version of library */
 }
 
 alias CK_INFO*            CK_INFO_PTR;
@@ -101,12 +101,12 @@ alias CK_SLOT_ID*         CK_SLOT_ID_PTR;
 
 /* CK_SLOT_INFO provides information about a slot */
 struct CK_SLOT_INFO {
-  CK_UTF8CHAR   slotDescription[64];  /* blank padded */
-  CK_UTF8CHAR   manufacturerID[32];   /* blank padded */
-  CK_FLAGS      flags;
+  CK_UTF8CHAR[64]   slotDescription;  /* blank padded */
+  CK_UTF8CHAR[32]   manufacturerID;   /* blank padded */
+  CK_FLAGS          flags;
 
-  CK_VERSION    hardwareVersion;  /* version of hardware */
-  CK_VERSION    firmwareVersion;  /* version of firmware */
+  CK_VERSION        hardwareVersion;  /* version of hardware */
+  CK_VERSION        firmwareVersion;  /* version of firmware */
 }
 
 /* flags: bit flags that provide capabilities of the slot
@@ -121,11 +121,11 @@ alias CK_SLOT_INFO*         CK_SLOT_INFO_PTR;
 
 /* CK_TOKEN_INFO provides information about a token */
 struct CK_TOKEN_INFO {
-  CK_UTF8CHAR   label[32];           /* blank padded */
-  CK_UTF8CHAR   manufacturerID[32];  /* blank padded */
-  CK_UTF8CHAR   model[16];           /* blank padded */
-  CK_CHAR       serialNumber[16];    /* blank padded */
-  CK_FLAGS      flags;               /* see below */
+  CK_UTF8CHAR[32]   label;           /* blank padded */
+  CK_UTF8CHAR[32]   manufacturerID;  /* blank padded */
+  CK_UTF8CHAR[16]   model;           /* blank padded */
+  CK_CHAR[16]       serialNumber;    /* blank padded */
+  CK_FLAGS          flags;           /* see below */
 
   CK_ULONG      ulMaxSessionCount;     /* max open sessions */
   CK_ULONG      ulSessionCount;        /* sess. now open */
@@ -139,7 +139,7 @@ struct CK_TOKEN_INFO {
   CK_ULONG      ulFreePrivateMemory;   /* in bytes */
   CK_VERSION    hardwareVersion;       /* version of hardware */
   CK_VERSION    firmwareVersion;       /* version of firmware */
-  CK_CHAR       utcTime[16];           /* time */
+  CK_CHAR[16]   utcTime;               /* time */
 };
 
 /* The flags parameter is defined as follows:
@@ -564,9 +564,9 @@ alias CK_ATTRIBUTE*         CK_ATTRIBUTE_PTR;
 
 /* CK_DATE is a structure that defines a date */
 struct CK_DATE{
-  CK_CHAR       year[4];   /* the year ("1900" - "9999") */
-  CK_CHAR       month[2];  /* the month ("01" - "12") */
-  CK_CHAR       day[2];    /* the day   ("01" - "31") */
+  CK_CHAR[4]       year;   /* the year ("1900" - "9999") */
+  CK_CHAR[2]       month;  /* the month ("01" - "12") */
+  CK_CHAR[2]       day;    /* the day   ("01" - "31") */
 }
 
 
@@ -1422,7 +1422,7 @@ alias CK_RC2_PARAMS*         CK_RC2_PARAMS_PTR;
  */
 struct CK_RC2_CBC_PARAMS {
   CK_ULONG      ulEffectiveBits;  /* effective bits (1-1024) */
-  CK_BYTE       iv[8];            /* IV for CBC mode */
+  CK_BYTE[8]    iv;               /* IV for CBC mode */
 }
 
 alias CK_RC2_CBC_PARAMS*         CK_RC2_CBC_PARAMS_PTR;
@@ -1485,7 +1485,7 @@ alias CK_ULONG            CK_MAC_GENERAL_PARAMS;
 alias CK_MAC_GENERAL_PARAMS*         CK_MAC_GENERAL_PARAMS_PTR;
 
 struct CK_DES_CBC_ENCRYPT_DATA_PARAMS {
-  CK_BYTE      iv[8];
+  CK_BYTE[8]   iv;
   CK_BYTE_PTR  pData;
   CK_ULONG     length;
 }
@@ -1493,7 +1493,7 @@ struct CK_DES_CBC_ENCRYPT_DATA_PARAMS {
 alias CK_DES_CBC_ENCRYPT_DATA_PARAMS*         CK_DES_CBC_ENCRYPT_DATA_PARAMS_PTR;
 
 struct CK_AES_CBC_ENCRYPT_DATA_PARAMS {
-  CK_BYTE      iv[16];
+  CK_BYTE[16]  iv;
   CK_BYTE_PTR  pData;
   CK_ULONG     length;
 }
@@ -1816,8 +1816,8 @@ struct CK_KIP_PARAMS {
 alias CK_KIP_PARAMS*         CK_KIP_PARAMS_PTR;
 
 struct CK_AES_CTR_PARAMS {
-    CK_ULONG ulCounterBits;
-    CK_BYTE cb[16];
+    CK_ULONG    ulCounterBits;
+    CK_BYTE[16] cb;
 }
 
 alias CK_AES_CTR_PARAMS*         CK_AES_CTR_PARAMS_PTR;
@@ -1870,13 +1870,13 @@ alias CK_AES_CCM_PARAMS*         CK_AES_CCM_PARAMS_PTR;
 
 struct CK_CAMELLIA_CTR_PARAMS {
     CK_ULONG          ulCounterBits;
-    CK_BYTE           cb[16];
+    CK_BYTE[16]       cb;
 }
 
 alias CK_CAMELLIA_CTR_PARAMS*         CK_CAMELLIA_CTR_PARAMS_PTR;
 
 struct CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS {
-    CK_BYTE           iv[16];
+    CK_BYTE[16]       iv;
     CK_BYTE_PTR       pData;
     CK_ULONG          length;
 }
@@ -1885,7 +1885,7 @@ alias CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS*
                                 CK_CAMELLIA_CBC_ENCRYPT_DATA_PARAMS_PTR;
 
 struct CK_ARIA_CBC_ENCRYPT_DATA_PARAMS {
-    CK_BYTE           iv[16];
+    CK_BYTE[16]       iv;
     CK_BYTE_PTR       pData;
     CK_ULONG          length;
 }
@@ -1983,7 +1983,7 @@ struct CK_GOSTR3410_KEY_WRAP_PARAMS {
 alias CK_GOSTR3410_KEY_WRAP_PARAMS*         CK_GOSTR3410_KEY_WRAP_PARAMS_PTR;
 
 struct CK_SEED_CBC_ENCRYPT_DATA_PARAMS {
-    CK_BYTE                   iv[16];
+    CK_BYTE[16]               iv;
     CK_BYTE_PTR               pData;
     CK_ULONG                  length;
 }
